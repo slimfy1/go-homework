@@ -2,6 +2,19 @@ package main
 
 import "fmt"
 
+func readInputData() (float64, string, string) {
+	var (
+		value          float64
+		firstCurrency  string
+		secondCurrency string
+	)
+	fmt.Scanln(&value, &firstCurrency, &secondCurrency)
+	return value, firstCurrency, secondCurrency
+}
+
+func currencyConvert(value int, firstCurrency string, secondCurrency string) float64 {
+
+}
 func main() {
 	// Main body
 	// Current price
