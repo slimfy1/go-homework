@@ -12,8 +12,8 @@ func readInputData() (float64, string, string) {
 	return value, firstCurrency, secondCurrency
 }
 
-func currencyConvert(value int, firstCurrency string, secondCurrency string) float64 {
-
+func currencyConvert(value float64, firstCurrency string, secondCurrency string) float64 {
+	return 10.0
 }
 func main() {
 	// Main body
