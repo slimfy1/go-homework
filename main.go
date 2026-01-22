@@ -13,5 +13,5 @@ func main() {
 	fmt.Scanln(&amount)
 
 	const eurToRub = usdToRub / usdToEur
-	fmt.Printf("Your money: %v", eurToRub/amount)
+	fmt.Printf("Your money: %v", amount*eurToRub)
 }
