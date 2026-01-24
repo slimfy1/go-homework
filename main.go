@@ -1,57 +1,75 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
-func readInputData() (float64, string, string) {
-	var (
-		value          float64
-		firstCurrency  string
-		secondCurrency string
-	)
-	// First step - enter source currency
+func validateCurrency(prompt string, excludeCurrency string) string {
+	validCurrencies := []string{"EUR", "RUB", "USD"}
+
 	for {
-		fmt.Println("Enter your currency: EUR, RUB, USD")
-		fmt.Scanln(&firstCurrency)
-		if firstCurrency == "EUR" || firstCurrency == "RUB" || firstCurrency == "USD" {
-			break
-		}
-		fmt.Println("Invalid currency! Please enter EUR, RUB, or USD")
-	}
+		fmt.Println(prompt)
+		var currency string
+		fmt.Scanln(&currency)
 
-	// Second step - enter amount
+		// Проверка на валидность и отличие от исключаемой валюты
+		for _, valid := range validCurrencies {
+			if currency == valid && currency != excludeCurrency {
+				return currency
+			}
+		}
+
+		if excludeCurrency != "" {
+			fmt.Println("Invalid currency or same as source currency!")
+		} else {
+			fmt.Println("Invalid currency! Please enter EUR, RUB, or USD")
+		}
+	}
+}
+
+func validateAmount() float64 {
 	for {
 		fmt.Println("Enter amount of currency")
+		var value float64
 		_, err := fmt.Scanln(&value)
+
 		if err == nil && value > 0 {
-			break
+			return value
 		}
+
 		fmt.Println("Invalid amount! Please enter a positive number")
-		// Clear value buffer from invalid value
+		// Очистка буфера от невалидного значения
 		var discard string
 		fmt.Scanln(&discard)
 	}
+}
+func readInputData() (float64, string, string) {
+	// Шаг 1: Ввод исходной валюты
+	firstCurrency := validateCurrency("Enter your currency: EUR, RUB, USD", "")
 
-	// Third step - enter out currency
-	for {
-		switch firstCurrency {
-		case "EUR":
-			fmt.Println("Enter your currency: RUB, USD")
-		case "RUB":
-			fmt.Println("Enter your currency: EUR, USD")
-		case "USD":
-			fmt.Println("Enter your currency: EUR, RUB")
-		}
-		fmt.Scanln(&secondCurrency)
+	// Шаг 2: Ввод суммы
+	value := validateAmount()
 
-		// Validate second currency
-		if secondCurrency != firstCurrency && (secondCurrency == "EUR" || secondCurrency == "RUB" || secondCurrency == "USD") {
-			break
+	// Шаг 3: Ввод целевой валюты (исключаем исходную)
+	prompt := fmt.Sprintf("Enter target currency (available: %s)", getAvailableCurrencies(firstCurrency))
+	secondCurrency := validateCurrency(prompt, firstCurrency)
+
+	return value, firstCurrency, secondCurrency
+}
+
+// Вспомогательная функция для формирования списка доступных валют
+func getAvailableCurrencies(exclude string) string {
+	currencies := []string{"EUR", "RUB", "USD"}
+	available := []string{}
+
+	for _, curr := range currencies {
+		if curr != exclude {
+			available = append(available, curr)
 		}
-		fmt.Println("Invalid currency or same as source currency!")
 	}
 
-	//fmt.Scanln(&value, &firstCurrency, &secondCurrency)
-	return value, firstCurrency, secondCurrency
+	return strings.Join(available, ", ")
 }
 
 func currencyConvert(value float64, firstCurrency string, secondCurrency string) float64 {
