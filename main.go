@@ -26,6 +26,9 @@ func readInputData() (float64, string, string) {
 			break
 		}
 		fmt.Println("Invalid amount! Please enter a positive number")
+		// Clear value buffer from invalid value
+		var discard string
+		fmt.Scanln(&discard)
 	}
 
 	// Third step - enter out currency
