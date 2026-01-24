@@ -19,8 +19,14 @@ func readInputData() (float64, string, string) {
 	}
 
 	// Second step - enter amount
-	fmt.Println("Enter amount of currency")
-	fmt.Scanln(&value)
+	for {
+		fmt.Println("Enter amount of currency")
+		_, err := fmt.Scanln(&value)
+		if err == nil && value > 0 {
+			break
+		}
+		fmt.Println("Invalid amount! Please enter a positive number")
+	}
 
 	// Third step - enter out currency
 	for {
