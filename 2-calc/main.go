@@ -24,10 +24,10 @@ func stringToInt(s string) ([]int, error) {
 	fmt.Println("Enter the numbers:")
 
 	// Making slice of numbers
-	numbersSlice := strings.SplitSeq(s, ",")
+	numbersSlice := strings.Split(s, ",")
 
-	for i := range numbersSlice {
-		j, err := strconv.Atoi(i)
+	for _, numStr := range numbersSlice {
+		j, err := strconv.Atoi(numStr)
 		if err != nil {
 			fmt.Println("Invalid numbers")
 			return nil, err
