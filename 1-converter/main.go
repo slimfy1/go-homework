@@ -75,52 +75,25 @@ func getAvailableCurrencies(exclude string) string {
 }
 
 func currencyConvert(value float64, firstCurrency string, secondCurrency string) float64 {
-
-	// const usdToEur float64 = 0.85
-	// const usdToRub float64 = 76.0382
-	// const eurToRub = usdToRub / usdToEur
-	// const rubToEur = 1.0 / eurToRub
-	// const eurToUsd = 1.0 / usdToEur
-	// const rubToUsd = 1.0 / usdToRub
-	currencyMap := CurrencyMap{
-		"EUR": 0.85,
-		"RUB": 76.0382,
-		"USD": 1.0,
+	// Map с парами валют и их курсами
+	conversionRates := CurrencyMap{
+		"EUR_RUB": 89.47, // 1 EUR = 89.47 RUB
+		"EUR_USD": 1.18,  // 1 EUR = 1.18 USD
+		"RUB_EUR": 0.011, // 1 RUB = 0.011 EUR
+		"RUB_USD": 0.013, // 1 RUB = 0.013 USD
+		"USD_EUR": 0.85,  // 1 USD = 0.85 EUR
+		"USD_RUB": 76.04, // 1 USD = 76.04 RUB
 	}
 
-	eurToRub := currencyMap["EUR"] / currencyMap["RUB"]
-	rubToEur := 1.0 / eurToRub
-	eurToUsd := 1.0 / currencyMap["EUR"]
-	rubToUsd := 1.0 / currencyMap["RUB"]
-	usdToEur := 1.0 / currencyMap["USD"]
-	usdToRub := currencyMap["USD"] / currencyMap["RUB"]
+	// Формируем ключ из пары валют
+	key := firstCurrency + "_" + secondCurrency
 
-	var convert = 0.0
-
-	switch firstCurrency {
-	case "EUR":
-		if secondCurrency == "RUB" {
-			convert := value * eurToRub
-			return convert
-		} else if secondCurrency == "USD" {
-			convert = value * eurToUsd
-
-		}
-	case "RUB":
-		if secondCurrency == "EUR" {
-			convert := value * rubToEur
-			return convert
-		} else if secondCurrency == "USD" {
-			convert = value * rubToUsd
-		}
-	case "USD":
-		if secondCurrency == "EUR" {
-			convert = value * usdToEur
-		} else if secondCurrency == "RUB" {
-			convert = value * usdToRub
-		}
+	// Получаем курс из map и умножаем на сумму
+	if rate, exists := conversionRates[key]; exists {
+		return value * rate
 	}
-	return convert
+
+	return 0.0 // если пара не найдена
 }
 func main() {
 	// Main body
