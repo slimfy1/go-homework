@@ -5,6 +5,8 @@ import (
 	"strings"
 )
 
+type CurrencyMap = map[string]float64
+
 func validateCurrency(prompt string, excludeCurrency string) string {
 	validCurrencies := []string{"EUR", "RUB", "USD"}
 
@@ -73,12 +75,25 @@ func getAvailableCurrencies(exclude string) string {
 }
 
 func currencyConvert(value float64, firstCurrency string, secondCurrency string) float64 {
-	const usdToEur float64 = 0.85
-	const usdToRub float64 = 76.0382
-	const eurToRub = usdToRub / usdToEur
-	const rubToEur = 1.0 / eurToRub
-	const eurToUsd = 1.0 / usdToEur
-	const rubToUsd = 1.0 / usdToRub
+
+	// const usdToEur float64 = 0.85
+	// const usdToRub float64 = 76.0382
+	// const eurToRub = usdToRub / usdToEur
+	// const rubToEur = 1.0 / eurToRub
+	// const eurToUsd = 1.0 / usdToEur
+	// const rubToUsd = 1.0 / usdToRub
+	currencyMap := CurrencyMap{
+		"EUR": 0.85,
+		"RUB": 76.0382,
+		"USD": 1.0,
+	}
+
+	eurToRub := currencyMap["EUR"] / currencyMap["RUB"]
+	rubToEur := 1.0 / eurToRub
+	eurToUsd := 1.0 / currencyMap["EUR"]
+	rubToUsd := 1.0 / currencyMap["RUB"]
+	usdToEur := 1.0 / currencyMap["USD"]
+	usdToRub := currencyMap["USD"] / currencyMap["RUB"]
 
 	var convert = 0.0
 
