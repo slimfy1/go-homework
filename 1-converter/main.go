@@ -74,7 +74,21 @@ func getAvailableCurrencies(exclude string) string {
 	return strings.Join(available, ", ")
 }
 
-func currencyConvert(value float64, firstCurrency string, secondCurrency string) float64 {
+func currencyConvert(value float64, firstCurrency string, secondCurrency string, convRates *CurrencyMap) float64 {
+
+	// Формируем ключ из пары валют
+	key := firstCurrency + "_" + secondCurrency
+
+	// Получаем курс из map и умножаем на сумму
+	if rate, exists := (*convRates)[key]; exists {
+		return value * rate
+	}
+
+	return 0.0 // если пара не найдена
+}
+func main() {
+	// Main body
+	// Current price
 	// Map с парами валют и их курсами
 	conversionRates := CurrencyMap{
 		"EUR_RUB": 89.47, // 1 EUR = 89.47 RUB
@@ -85,22 +99,8 @@ func currencyConvert(value float64, firstCurrency string, secondCurrency string)
 		"USD_RUB": 76.04, // 1 USD = 76.04 RUB
 	}
 
-	// Формируем ключ из пары валют
-	key := firstCurrency + "_" + secondCurrency
-
-	// Получаем курс из map и умножаем на сумму
-	if rate, exists := conversionRates[key]; exists {
-		return value * rate
-	}
-
-	return 0.0 // если пара не найдена
-}
-func main() {
-	// Main body
-	// Current price
-
 	value, firstCurrency, secondCurrency := readInputData()
-	convertValue := currencyConvert(value, firstCurrency, secondCurrency)
+	convertValue := currencyConvert(value, firstCurrency, secondCurrency, &conversionRates)
 
 	fmt.Printf("Your money: %.2f", convertValue)
 }
