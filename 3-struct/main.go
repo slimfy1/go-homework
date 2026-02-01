@@ -9,6 +9,13 @@ type Bin struct {
 	name      string
 }
 
+type BinList struct {
+	id        string
+	private   bool
+	createdAt time.Time
+	name      string
+}
+
 func main() {
 
 }
@@ -23,4 +30,13 @@ func createBinStruct(id string, private bool, name string) Bin {
 	}
 	return binList
 
+}
+
+func createBinListStruct(id string, private bool, name string) BinList {
+	return BinList{
+		id:        id,
+		private:   private,
+		createdAt: time.Now(),
+		name:      name,
+	}
 }
