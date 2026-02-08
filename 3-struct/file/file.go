@@ -9,7 +9,7 @@ import (
 //Чтение любого файла
 //Проверка что это json расширение файла
 
-func readFile(filename string) (string, error) {
+func ReadFile(filename string) (string, error) {
 	content, err := os.ReadFile(filename)
 	if err != nil {
 		return "", err
