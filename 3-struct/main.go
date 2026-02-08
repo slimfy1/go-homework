@@ -3,17 +3,17 @@ package main
 import "time"
 
 type Bin struct {
-	id        string
-	private   bool
-	createdAT time.Time
-	name      string
+	Id        string
+	Private   bool
+	CreatedAT time.Time
+	Name      string
 }
 
 type BinList struct {
-	id        string
-	private   bool
-	createdAt time.Time
-	name      string
+	Id        string
+	Private   bool
+	CreatedAt time.Time
+	Name      string
 }
 
 func main() {
@@ -23,10 +23,10 @@ func main() {
 func createBinStruct(id string, private bool, name string) Bin {
 
 	binList := Bin{
-		id:        id,
-		private:   private,
-		createdAT: time.Now(),
-		name:      name,
+		Id:        id,
+		Private:   private,
+		CreatedAT: time.Now(),
+		Name:      name,
 	}
 	return binList
 
@@ -34,9 +34,9 @@ func createBinStruct(id string, private bool, name string) Bin {
 
 func createBinListStruct(id string, private bool, name string) BinList {
 	return BinList{
-		id:        id,
-		private:   private,
-		createdAt: time.Now(),
-		name:      name,
+		Id:        id,
+		Private:   private,
+		CreatedAt: time.Now(),
+		Name:      name,
 	}
 }
