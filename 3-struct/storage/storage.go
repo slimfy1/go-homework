@@ -10,15 +10,15 @@ import (
 //Сохранение bin в виде json в локальном файле
 //Чтение списка bin в виде json из локального файла
 
-func saveBin(bin []byte, filename string) error {
-	json, err := json.Marshal(bin)
+func SaveBin(bin interface{}, filename string) error {
+	jsonData, err := json.Marshal(bin)
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(filename, json, 0644)
+	return os.WriteFile(filename, jsonData, 0644)
 }
 
-func readBins(filename string) ([]byte, error) {
+func ReadBins(filename string) ([]byte, error) {
 	content, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
