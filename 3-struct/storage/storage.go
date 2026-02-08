@@ -10,6 +10,11 @@ import (
 //Сохранение bin в виде json в локальном файле
 //Чтение списка bin в виде json из локального файла
 
+type Storage interface {
+	SaveFile(filename string, data []byte) error
+	ReadFile(filename string) ([]byte, error)
+}
+
 func SaveBin(bin interface{}, filename string) error {
 	jsonData, err := json.Marshal(bin)
 	if err != nil {
