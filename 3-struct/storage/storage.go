@@ -1,7 +1,6 @@
 package storage
 
 import (
-	"encoding/json"
 	"errors"
 	"os"
 	"path/filepath"
@@ -15,15 +14,17 @@ type Storage interface {
 	ReadFile(filename string) ([]byte, error)
 }
 
-func SaveBin(bin interface{}, filename string) error {
-	jsonData, err := json.Marshal(bin)
-	if err != nil {
-		return err
-	}
-	return os.WriteFile(filename, jsonData, 0644)
+type LocalStorage struct{}
+
+func NewLocalStorage() *LocalStorage {
+	return &LocalStorage{}
 }
 
-func ReadBins(filename string) ([]byte, error) {
+func (s *LocalStorage) SaveFile(filename string, data []byte) error {
+	return os.WriteFile(filename, data, 0644)
+}
+
+func (s *LocalStorage) ReadFile(filename string) ([]byte, error) {
 	content, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
@@ -33,3 +34,22 @@ func ReadBins(filename string) ([]byte, error) {
 	}
 	return content, nil
 }
+
+// func SaveBin(bin interface{}, filename string) error {
+// 	jsonData, err := json.Marshal(bin)
+// 	if err != nil {
+// 		return err
+// 	}
+// 	return os.WriteFile(filename, jsonData, 0644)
+// }
+
+// func ReadBins(filename string) ([]byte, error) {
+// 	content, err := os.ReadFile(filename)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	if filepath.Ext(filename) != ".json" {
+// 		return nil, errors.New("invalid file extension")
+// 	}
+// 	return content, nil
+// }
