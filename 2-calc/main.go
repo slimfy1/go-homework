@@ -7,15 +7,17 @@ import (
 	"strings"
 )
 
-/*
-1. Принимает операцию (AVG - среднее, SUM - сумму, MED - медиану)
-2. Принимает неограниченное число чисел через запятую (2, 10, 9)
-3. Разбивает строку чисел по запятым и затем делает расчёт в зависимости от операции выводя результат
-*/
 func main() {
 	operation, numbers := readInputData()
-	result := calculate(operation, numbers)
+	//result := calculate(operation, numbers)
+	result := menu[operation](numbers)
 	fmt.Println(result)
+}
+
+var menu = map[string]func(numbers []int) float64{
+	"AVG": calculateAVG,
+	"SUM": calculateSUM,
+	"MED": calculateMED,
 }
 
 func stringToInt(s string) ([]int, error) {
@@ -107,4 +109,31 @@ func calculate(operation string, numbers []int) float64 {
 		return Median(floatNumbers)
 	}
 	return 0
+}
+
+func calculateAVG(numbers []int) float64 {
+	var sum float64
+	for _, number := range numbers {
+		sum += float64(number)
+	}
+	if len(numbers) == 0 {
+		return 0
+	}
+	return sum / float64(len(numbers))
+}
+
+func calculateSUM(numbers []int) float64 {
+	sum := 0.0
+	for _, number := range numbers {
+		sum += float64(number)
+	}
+	return sum
+}
+
+func calculateMED(numbers []int) float64 {
+	var floatNumbers []float64
+	for _, number := range numbers {
+		floatNumbers = append(floatNumbers, float64(number))
+	}
+	return Median(floatNumbers)
 }
