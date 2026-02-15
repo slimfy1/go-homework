@@ -16,13 +16,13 @@ func NewConfig() *Config {
 	if err != nil {
 		panic("Error loading .env file")
 	}
-	//keyEnv := os.Getenv("KEY")
-	//fmt.Println("keyEnv:", keyEnv)
-	return &Config{Key: ""}
+	keyEnv := os.Getenv("KEY")
+	fmt.Println("keyEnv:", keyEnv)
+	return &Config{Key: keyEnv}
 }
 
-func (config *Config) GetKey() {
-	keyEnv := os.Getenv("KEY")
-	config.Key = keyEnv
-	fmt.Println("keyEnv:", keyEnv)
-}
+//func (config *Config) GetKey() {
+//	keyEnv := os.Getenv("KEY")
+//	config.Key = keyEnv
+//	fmt.Println("keyEnv:", keyEnv)
+//}
