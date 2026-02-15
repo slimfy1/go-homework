@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"homework/3-struct/bins"
+	"homework/3-struct/config"
 	"homework/3-struct/storage"
 	"time"
 )
@@ -22,6 +23,9 @@ type BinList struct {
 }
 
 func main() {
+	configEnv := config.NewConfig()
+	configEnv.GetKey()
+	fmt.Println("configEnv:", configEnv)
 	// 1. Создаём реализацию Storage
 	localStorage := storage.NewLocalStorage()
 
